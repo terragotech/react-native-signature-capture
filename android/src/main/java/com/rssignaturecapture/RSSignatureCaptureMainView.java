@@ -157,16 +157,14 @@ public class RSSignatureCaptureMainView extends LinearLayout implements OnClickL
     if (file.exists()) {
       file.delete();
     }
-
+    FileOutputStream out = null;
     try {
 
       Log.d("React Signature", "Save file-======:" + saveFileInExtStorage);
       // save the signature
       if (saveFileInExtStorage) {
-        FileOutputStream out = new FileOutputStream(file);
+        out = new FileOutputStream(file);
         this.signatureView.getSignature().compress(Bitmap.CompressFormat.PNG, 90, out);
-        out.flush();
-        out.close();
       }
 
 
@@ -185,6 +183,15 @@ public class RSSignatureCaptureMainView extends LinearLayout implements OnClickL
       reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
     } catch (Exception e) {
       e.printStackTrace();
+    }finally {
+      if(out != null){
+        try{
+          out.flush();
+          out.close();
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+      }
     }
   }
 
