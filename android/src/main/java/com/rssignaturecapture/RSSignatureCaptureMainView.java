@@ -184,11 +184,15 @@ public class RSSignatureCaptureMainView extends LinearLayout implements OnClickL
     } catch (Exception e) {
       e.printStackTrace();
     }finally {
-      if(out != null){
-        try{
+      if (out != null) {
+        try {
           out.flush();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        try {
           out.close();
-        }catch (Exception e){
+        } catch (Exception e) {
           e.printStackTrace();
         }
       }
